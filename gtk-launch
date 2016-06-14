@@ -11,17 +11,6 @@ else
   ARCH="$SNAP_ARCH-linux-gnu"
 fi
 
-if [ $GTK_SELECTOR -eq 2 ]; then
-  GTK_UPDATE_ICON_CACHE=gtk-update-icon-cache
-elif [ $GTK_SELECTOR -eq 3 ]; then
-  GTK_UPDATE_ICON_CACHE=gtk-update-icon-cache-3.0
-  # GTK modules
-  export GTK_PATH=$SNAP/usr/lib/$ARCH/gtk-3.0
-else
-  echo "Please specify a valid GTK version (2 or 3)"
-  exit 0
-fi
-
 export LD_LIBRARY_PATH=$SNAP/usr/lib/$ARCH:$LD_LIBRARY_PATH
 
 # XKB config
@@ -116,11 +105,15 @@ if [ ! -d $XDG_DATA_HOME/icons ]; then
         mkdir -p "$theme_dir"
         ln -s $i/* "$theme_dir"
         $SNAP/usr/sbin/update-icon-caches "$theme_dir"
-        "$(GTK_UPDATE_ICON_CACHE "$theme_dir")"
+        [ -x $SNAP/usr/sbin/gtk-update-icon-cache ] && gtk-update-icon-cache "$theme"
+        [ -x $SNAP/usr/sbin/gtk-update-icon-cache-3.0 ] && gtk-update-icon-cache-3.0 "$theme"
       fi
     done
   done
 fi
+
+# GTK modules
+export GTK_PATH=$SNAP/usr/lib/$ARCH/gtk-3.0
 
 cd $SNAP
 exec "$@"
