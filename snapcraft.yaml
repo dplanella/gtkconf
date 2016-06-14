@@ -1,0 +1,10 @@
+name: gtkconf
+version: 0.1
+summary: This is meant to be consumed by other projects
+description: |
+  This sets up the GTK environment for GTK-based projects
+parts:
+  gtkconf:
+    build-packages: [dpkg-dev]
+    plugin: make
+    source: .
