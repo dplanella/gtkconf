@@ -110,7 +110,7 @@ fi
 
 # Build mime.cache
 if [ ! -d $XDG_DATA_HOME/mime ]; then
-  cp --preserve=timestamps $SNAP/usr/share/mime $XDG_DATA_HOME
+  cp --preserve=timestamps -dR $SNAP/usr/share/mime $XDG_DATA_HOME
   update-mime-database $XDG_DATA_HOME/mime
 fi
 
