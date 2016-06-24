@@ -120,7 +120,11 @@ if [ ! -d $XDG_DATA_HOME/icons ]; then
         if [ ! -d "$theme_dir" ]; then
           mkdir -p "$theme_dir"
           ln -s $i/* "$theme_dir"
-          $SNAP/usr/sbin/update-icon-caches "$theme_dir"
+          if [ -f $SNAP/usr/sbin/update-icon-caches ]; then
+            $SNAP/usr/sbin/update-icon-caches "$theme_dir"
+          elif [ -f $SNAP/usr/sbin/update-icon-cache.gtk2 ]; then
+            $SNAP/usr/sbin/update-icon-cache.gtk2 "$theme_dir"
+          fi
         fi
       fi
     done
